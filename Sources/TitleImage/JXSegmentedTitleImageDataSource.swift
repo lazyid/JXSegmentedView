@@ -51,7 +51,11 @@ open class JXSegmentedTitleImageDataSource: JXSegmentedTitleDataSource {
         itemModel.normalImageInfo = normalImageInfos?[index]
         itemModel.selectedImageInfo = selectedImageInfos?[index]
         itemModel.loadImageClosure = loadImageClosure
-        itemModel.imageSize = imageSize
+        if itemModel.normalImageInfo == "" {
+            itemModel.imageSize = CGSize.zero
+        }else{
+            itemModel.imageSize = imageSize
+        }
         itemModel.isImageZoomEnabled = isImageZoomEnabled
         itemModel.imageNormalZoomScale = 1
         itemModel.imageSelectedZoomScale = imageSelectedZoomScale
@@ -68,7 +72,15 @@ open class JXSegmentedTitleImageDataSource: JXSegmentedTitleDataSource {
         if itemContentWidth == JXSegmentedViewAutomaticDimension {
             switch titleImageType {
             case .leftImage, .rightImage:
-                itemWidth += titleImageSpacing + imageSize.width
+                if let imgs = normalImageInfos {
+                    if imgs.count > index {
+                        let imgUrl = imgs[index]
+                        if imgUrl != "" {
+                            itemWidth += titleImageSpacing + imageSize.width
+                            break
+                        }
+                    }
+                }
             case .topImage, .bottomImage:
                 itemWidth = max(itemWidth, imageSize.width)
             case .onlyImage:
