@@ -28,6 +28,8 @@ open class JXSegmentedTitleCell: JXSegmentedBaseCell {
 
         maskTitleMaskLayer.backgroundColor = UIColor.red.cgColor
         maskTitleLabel.layer.mask = maskTitleMaskLayer
+        
+        layer.cornerRadius = 2
     }
 
     open override func layoutSubviews() {
@@ -100,6 +102,7 @@ open class JXSegmentedTitleCell: JXSegmentedBaseCell {
             //允许mask，maskTitleLabel在titleLabel上面，maskTitleLabel设置为titleSelectedColor。titleLabel设置为titleNormalColor
             //为了显示效果，使用了双遮罩。即titleMaskLayer遮罩titleLabel，maskTitleMaskLayer遮罩maskTitleLabel
             maskTitleLabel.isHidden = false
+            layer.backgroundColor = myItemModel.cellNormalColor.cgColor
             titleLabel.textColor = myItemModel.titleNormalColor
             maskTitleLabel.textColor = myItemModel.titleSelectedColor
             let labelSize = maskTitleLabel.sizeThatFits(self.contentView.bounds.size)
@@ -146,6 +149,7 @@ open class JXSegmentedTitleCell: JXSegmentedBaseCell {
                 appendSelectedAnimationClosure(closure: titleColorClosure)
             }else {
                 titleLabel.textColor = myItemModel.titleCurrentColor
+                layer.backgroundColor = myItemModel.cellCurrentColor.cgColor
             }
         }
 
@@ -194,6 +198,7 @@ open class JXSegmentedTitleCell: JXSegmentedBaseCell {
                 itemModel.titleCurrentColor = JXSegmentedViewTool.interpolateColor(from: itemModel.titleSelectedColor, to: itemModel.titleNormalColor, percent: percent)
             }
             self?.titleLabel.textColor = itemModel.titleCurrentColor
+            self?.layer.backgroundColor = itemModel.cellCurrentColor.cgColor
         }
     }
 }

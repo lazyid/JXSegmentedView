@@ -26,4 +26,9 @@ open class JXSegmentedTitleItemModel: JXSegmentedBaseItemModel {
     open var titleSelectedStrokeWidth: CGFloat = 0
     open var isTitleMaskEnabled: Bool = false
     open var textWidth: CGFloat = 0
+    
+    open var cellCurrentColor: UIColor = .clear
+    open var cellSelectedColor: UIColor = .clear
+    open var cellNormalColor: UIColor = .clear
+
 }

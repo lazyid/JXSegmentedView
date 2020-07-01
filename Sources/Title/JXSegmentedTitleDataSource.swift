@@ -35,6 +35,12 @@ open class JXSegmentedTitleDataSource: JXSegmentedBaseDataSource{
     open var titleSelectedStrokeWidth: CGFloat = -2
     /// title是否使用遮罩过渡
     open var isTitleMaskEnabled: Bool = false
+    
+    /// cell普通状态的textColor
+    open var cellNormalColor: UIColor = .clear
+    /// cell选中状态的textColor
+    open var cellSelectedColor: UIColor = .clear
+
 
     deinit {
         widthForTitleClosure = nil
@@ -76,11 +82,16 @@ open class JXSegmentedTitleDataSource: JXSegmentedBaseDataSource{
         myItemModel.titleSelectedZoomScale = titleSelectedZoomScale
         myItemModel.titleSelectedStrokeWidth = titleSelectedStrokeWidth
         myItemModel.titleNormalStrokeWidth = 0
+        myItemModel.cellSelectedColor = cellSelectedColor
+        myItemModel.cellNormalColor = cellNormalColor
+
         if index == selectedIndex {
+            myItemModel.cellCurrentColor = cellSelectedColor
             myItemModel.titleCurrentColor = titleSelectedColor
             myItemModel.titleCurrentZoomScale = titleSelectedZoomScale
             myItemModel.titleCurrentStrokeWidth = titleSelectedStrokeWidth
         }else {
+            myItemModel.cellCurrentColor = cellNormalColor
             myItemModel.titleCurrentColor = titleNormalColor
             myItemModel.titleCurrentZoomScale = 1
             myItemModel.titleCurrentStrokeWidth = 0
@@ -147,11 +158,13 @@ open class JXSegmentedTitleDataSource: JXSegmentedBaseDataSource{
             return
         }
 
+        myCurrentSelectedItemModel.cellCurrentColor = myCurrentSelectedItemModel.cellNormalColor
         myCurrentSelectedItemModel.titleCurrentColor = myCurrentSelectedItemModel.titleNormalColor
         myCurrentSelectedItemModel.titleCurrentZoomScale = myCurrentSelectedItemModel.titleNormalZoomScale
         myCurrentSelectedItemModel.titleCurrentStrokeWidth = myCurrentSelectedItemModel.titleNormalStrokeWidth
         myCurrentSelectedItemModel.indicatorConvertToItemFrame = CGRect.zero
 
+        myWillSelectedItemModel.cellCurrentColor = myWillSelectedItemModel.cellSelectedColor
         myWillSelectedItemModel.titleCurrentColor = myWillSelectedItemModel.titleSelectedColor
         myWillSelectedItemModel.titleCurrentZoomScale = myWillSelectedItemModel.titleSelectedZoomScale
         myWillSelectedItemModel.titleCurrentStrokeWidth = myWillSelectedItemModel.titleSelectedStrokeWidth
