@@ -165,7 +165,26 @@ open class JXSegmentedTitleDataSource: JXSegmentedBaseDataSource{
         myCurrentSelectedItemModel.indicatorConvertToItemFrame = CGRect.zero
 
         myWillSelectedItemModel.cellCurrentColor = myWillSelectedItemModel.cellSelectedColor
-        myWillSelectedItemModel.titleCurrentColor = myWillSelectedItemModel.titleSelectedColor
+        if let title = myWillSelectedItemModel.title {
+            if segmentedView.tag == 1438 {
+                if title.contains("推荐") {
+                    myWillSelectedItemModel.titleCurrentColor = myWillSelectedItemModel.titleSelectedColor
+                    if let line:JXSegmentedIndicatorLineView = segmentedView.indicators[0] as? JXSegmentedIndicatorLineView {
+                        line.backgroundColor = myWillSelectedItemModel.titleSelectedColor
+                    }
+                }else{
+                    myWillSelectedItemModel.titleCurrentColor = myWillSelectedItemModel.titleNormalColor
+                    
+                    if let line:JXSegmentedIndicatorLineView = segmentedView.indicators[0] as? JXSegmentedIndicatorLineView {
+                        line.backgroundColor = myWillSelectedItemModel.titleNormalColor
+                    }
+                }
+            }else{
+                myWillSelectedItemModel.titleCurrentColor = myWillSelectedItemModel.titleSelectedColor
+            }
+        }else{
+            myWillSelectedItemModel.titleCurrentColor = myWillSelectedItemModel.titleSelectedColor
+        }
         myWillSelectedItemModel.titleCurrentZoomScale = myWillSelectedItemModel.titleSelectedZoomScale
         myWillSelectedItemModel.titleCurrentStrokeWidth = myWillSelectedItemModel.titleSelectedStrokeWidth
     }
