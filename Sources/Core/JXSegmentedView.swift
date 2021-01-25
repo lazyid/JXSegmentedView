@@ -562,8 +562,22 @@ open class JXSegmentedView: UIView {
 
         let lastSelectedIndex = selectedIndex
         selectedIndex = index
-
-        let currentSelectedItemFrame = getSelectedItemFrameAt(index: selectedIndex)
+        
+        var currentSelectedItemFrame = getSelectedItemFrameAt(index: selectedIndex)
+        if self.tag == 1438 {
+            if let titleModel:JXSegmentedTitleItemModel = willSelectedItemModel as? JXSegmentedTitleItemModel {
+                let t:String = titleModel.title ?? ""
+                let font:UIFont = titleModel.titleSelectedFont
+                let rect = t.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 50), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+                if rect.width > currentSelectedItemFrame.width {
+                    let moreWidth = rect.width - currentSelectedItemFrame.width - 2
+                    let newX = currentSelectedItemFrame.origin.x - (moreWidth/2)
+                    currentSelectedItemFrame = CGRect.init(x: newX, y: currentSelectedItemFrame.origin.y, width: rect.width, height: currentSelectedItemFrame.height)
+                }
+                debugPrint("\(t)---\(rect.width)====\(currentSelectedItemFrame.width)")
+            }
+        }
+        
         for indicator in indicators {
             let indicatorParamsModel = JXSegmentedIndicatorParamsModel()
             indicatorParamsModel.lastSelectedIndex = lastSelectedIndex
@@ -618,6 +632,19 @@ open class JXSegmentedView: UIView {
             width = (dataSource?.segmentedView(self, widthForItemAt: selectedItemModel.index, isItemWidthZoomValid: false) ?? 0) * selectedItemModel.itemWidthSelectedZoomScale
         }else {
             width = selectedItemModel.itemWidth
+        }
+        
+        if self.tag == 1438 {
+            if let titleModel:JXSegmentedTitleItemModel = selectedItemModel as? JXSegmentedTitleItemModel {
+                let t:String = titleModel.title ?? ""
+                let font:UIFont = titleModel.titleSelectedFont
+                let rect = t.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 50), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+                if rect.width > width {
+                    let moreWidth = rect.width - width - 2
+                    width = rect.width
+                    x = x - (moreWidth/2)
+                }
+            }
         }
         return CGRect(x: x, y: 0, width: width, height: bounds.size.height)
     }
