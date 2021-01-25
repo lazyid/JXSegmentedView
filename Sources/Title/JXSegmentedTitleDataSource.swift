@@ -9,6 +9,9 @@
 import UIKit
 
 open class JXSegmentedTitleDataSource: JXSegmentedBaseDataSource{
+    
+    open var isChangeYellow:Bool = false
+    
     /// title数组
     open var titles = [String]()
     /// 如果将JXSegmentedView嵌套进UITableView的cell，每次重用的时候，JXSegmentedView进行reloadData时，会重新计算所有的title宽度。所以该应用场景，需要UITableView的cellModel缓存titles的文字宽度，再通过该闭包方法返回给JXSegmentedView。
@@ -87,9 +90,21 @@ open class JXSegmentedTitleDataSource: JXSegmentedBaseDataSource{
 
         if index == selectedIndex {
             myItemModel.cellCurrentColor = cellSelectedColor
-            myItemModel.titleCurrentColor = titleSelectedColor
             myItemModel.titleCurrentZoomScale = titleSelectedZoomScale
             myItemModel.titleCurrentStrokeWidth = titleSelectedStrokeWidth
+            if self.isChangeYellow == true {
+                if let title = myItemModel.title {
+                    if title.contains("推荐"){
+                        myItemModel.titleCurrentColor = myItemModel.titleSelectedColor
+                    }else{
+                        myItemModel.titleCurrentColor = myItemModel.titleNormalColor
+                    }
+                }else{
+                    myItemModel.titleCurrentColor = titleSelectedColor
+                }
+            }else{
+                myItemModel.titleCurrentColor = titleSelectedColor
+            }
         }else {
             myItemModel.cellCurrentColor = cellNormalColor
             myItemModel.titleCurrentColor = titleNormalColor
@@ -158,6 +173,8 @@ open class JXSegmentedTitleDataSource: JXSegmentedBaseDataSource{
             return
         }
 
+       
+        
         myCurrentSelectedItemModel.cellCurrentColor = myCurrentSelectedItemModel.cellNormalColor
         myCurrentSelectedItemModel.titleCurrentColor = myCurrentSelectedItemModel.titleNormalColor
         myCurrentSelectedItemModel.titleCurrentZoomScale = myCurrentSelectedItemModel.titleNormalZoomScale

@@ -644,6 +644,16 @@ open class JXSegmentedView: UIView {
                     width = rect.width
                     x = x - (moreWidth/2)
                 }
+                
+                
+                if let line:JXSegmentedIndicatorLineView = self.indicators[0] as? JXSegmentedIndicatorLineView {
+                    if t.contains("推荐"){
+                        line.backgroundColor = titleModel.titleSelectedColor
+                    }else{
+                        line.backgroundColor = titleModel.titleNormalColor
+                    }
+                }
+
             }
         }
         return CGRect(x: x, y: 0, width: width, height: bounds.size.height)
